@@ -33,7 +33,7 @@ class ProcessDocs:
         text = re.sub(r'[^\w\s.,;:]','',text)
         return text.strip()
 
-    def text_chunks(self,text,chunk_size=500):
+    def text_chunks(self,text,chunk_size=350):#384 for all_mpnet #chunk size depends upon the max_sequence_length of sentence transformers to avoid truncation.
         """Convert full text into smaller chunks """
 
         words = text.split()
@@ -51,7 +51,3 @@ class ProcessDocs:
         return chunks
 
 
-if __name__ == '__main__':
-    d = ProcessDocs("./data/final_paper.pdf")
-    chunks = d.preprocess()
-    print(chunks[0])
