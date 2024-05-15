@@ -33,7 +33,7 @@ class ProcessDocs:
         text = re.sub(r'[^\w\s.,;:]','',text)
         return text.strip()
 
-    def text_chunks(self,text,chunk_size=350):#384 for all_mpnet #chunk size depends upon the max_sequence_length of sentence transformers to avoid truncation.
+    def text_chunks(self,text,chunk_size=100):#384 for all_mpnet #chunk size depends upon the max_sequence_length of sentence transformers to avoid truncation.
         """Convert full text into smaller chunks """
 
         words = text.split()

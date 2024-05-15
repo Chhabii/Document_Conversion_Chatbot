@@ -9,8 +9,8 @@ import faiss
 class DataIngestion:
     def __init__(self,chunks):
         self.chunks = chunks
-        self.embedding_model = HuggingFaceEmbeddings(model_name = "sentence-transformers/all-mpnet-base-v2")
-        self.index = faiss.IndexFlatL2(768) #type of faiss index
+        self.embedding_model = HuggingFaceEmbeddings(model_name = "sentence-transformers/all-MiniLM-L6-v2")
+        self.index = faiss.IndexFlatL2(384) #type of faiss index
         self.docstore = InMemoryDocstore()
         self.index_to_docstore_id = defaultdict(str)
 
@@ -33,17 +33,21 @@ class DataIngestion:
             self.vector_store.add_embeddings([(self.chunks[i], embedding)])
         
         return self.vector_store
+
+# if __name__ == "__main__":
+#     # Process and ingest data
+#     from data_processing import ProcessDocs
+
+#     processor = ProcessDocs('./data/final_paper.pdf')
+#     chunks = processor.preprocess()
+#     ingestion = DataIngestion(chunks)
+#     vector_store = ingestion.ingest_data()
+#     # print(vector_store.similarity_search("llama2",k=1))
+#     retriver = vector_store.as_retriever(search_type='similarity',search_kwargs={'k':2})
+#     docs = retriver.invoke("what different approaches were used for finetuning?")
+    # print(docs)
+    # Query the vector store
     
 
 
 
-
-if __name__ == '__main__':
-    from data_processing import ProcessDocs
-    d = ProcessDocs("./data/final_paper.pdf")
-    chunks = d.preprocess()
-
-    ingestion = DataIngestion(chunks)
-    vector_store = ingestion.ingest_data()
-
-    print(vector_store.index.ntotal)
